@@ -10,9 +10,6 @@ import (
 	"strings"
 	"time"
 
-	"GDN-delivery-management/mail"
-	"GDN-delivery-management/otp"
-
 	"github.com/google/uuid"
 	"github.com/labstack/echo/v4"
 )
@@ -20,7 +17,6 @@ import (
 type UserHandler struct {
 	UserRepo    repo.IUserRepo
 	SessionRepo repo.ISessionRepo
-	Email       mail.IEmailSender
 }
 
 type AddUserRequest struct {
@@ -56,13 +52,12 @@ func (u *UserHandler) AddUser(c echo.Context) error {
 	req.ID = userId.String()
 	req.Avatar = "http://localhost:3000/images/nino.jpg"
 	param := sql.CreateUserParams{
-		ID:           req.ID,
-		Email:        req.Email,
-		Username:     req.Username,
-		RoleTicker:   req.RoleTicker,
-		Password:     req.Password,
-		Avatar:       req.Avatar,
-		DepartmentID: req.DepartmentID,
+		ID:         req.ID,
+		Email:      req.Email,
+		Username:   req.Username,
+		RoleTicker: req.RoleTicker,
+		Password:   req.Password,
+		Avatar:     req.Avatar,
 	}
 	err, user := u.UserRepo.AddUser(c.Request().Context(), param)
 	if err != nil {
@@ -132,12 +127,11 @@ func (u *UserHandler) SystemAdminSignUp(c echo.Context) error {
 	}
 	req.ID = userId.String()
 	param := sql.CreateUserParams{
-		ID:           req.ID,
-		Email:        req.Email,
-		Username:     req.Username,
-		RoleTicker:   "SAD",
-		Password:     req.Password,
-		DepartmentID: req.DepartmentID,
+		ID:         req.ID,
+		Email:      req.Email,
+		Username:   req.Username,
+		RoleTicker: "SAD",
+		Password:   req.Password,
 	}
 	err, user := u.UserRepo.AddUser(c.Request().Context(), param)
 	if err != nil {
@@ -223,81 +217,6 @@ func (u UserHandler) Login(c echo.Context) error {
 			StatusCode: http.StatusUnauthorized,
 			Message:    "Login failed",
 			Data:       nil,
-		})
-	}
-
-	if user.RoleTicker == "SAD" {
-		// handle OTP
-		code, err := otp.TwilioSendOTP(user.Email)
-		if err != nil {
-			fmt.Println(err)
-			return c.JSON(http.StatusInternalServerError, Response{
-				StatusCode: http.StatusInternalServerError,
-				Message:    "Unable to send OTP",
-				Data:       nil,
-			})
-		}
-		fmt.Println("code Twilio", code)
-		//send email
-		err = u.Email.SendEmail("OTP", "OTP code", []string{user.Email}, nil, nil, nil)
-		if err != nil {
-			return c.JSON(http.StatusInternalServerError, Response{
-				StatusCode: http.StatusInternalServerError,
-				Message:    "Unable to send mail",
-				Data:       nil,
-			})
-		}
-		// gen token
-		token, token_payload, err := security.GenToken(user)
-		if err != nil {
-			return c.JSON(http.StatusInternalServerError, Response{
-				StatusCode: http.StatusInternalServerError,
-				Message:    err.Error(),
-				Data:       nil,
-			})
-		}
-		refresh_token, refresh_token_payload, err := security.GenRefreshtoken(user)
-		if err != nil {
-			return c.JSON(http.StatusInternalServerError, Response{
-				StatusCode: http.StatusInternalServerError,
-				Message:    err.Error(),
-				Data:       nil,
-			})
-		}
-		sessID, _ := uuid.NewUUID()
-		sessionParam := sql.CreateSessionParams{
-			ID:           sessID.String(),
-			UserID:       user.ID,
-			RefreshToken: refresh_token,
-			UserAgent:    "agent",
-			ClientIp:     "ip",
-			IsBlocked:    false,
-			ExpiresAt:    int64(refresh_token_payload.ExpiresAt),
-			CreatedAt:    time.Now(),
-		}
-
-		err, sess := u.SessionRepo.AddSession(c.Request().Context(), sessionParam)
-		if err != nil {
-			return c.JSON(http.StatusInternalServerError, Response{
-				StatusCode: http.StatusInternalServerError,
-				Message:    err.Error(),
-				Data:       nil,
-			})
-		}
-
-		userRes := UserLoginResponse{
-			User:                  user,
-			SessionID:             sess.ID,
-			AccessToken:           token,
-			AccessTokenExpiresAt:  token_payload.ExpiresAt,
-			RefreshToken:          refresh_token,
-			RefreshTokenExpiresAt: refresh_token_payload.ExpiresAt,
-		}
-
-		return c.JSON(http.StatusOK, Response{
-			StatusCode: http.StatusOK,
-			Message:    "Success",
-			Data:       userRes,
 		})
 	}
 
@@ -528,13 +447,12 @@ func (u *UserHandler) UpdateUser(c echo.Context) error {
 	hash := security.HashAndSalt([]byte(req.Password))
 	req.Password = hash
 	param := sql.UpdateUserParams{
-		Username:     req.UserName,
-		Email:        req.Email,
-		Password:     req.Password,
-		RoleTicker:   req.RoleTicker,
-		DepartmentID: req.DepartmentID,
-		Avatar:       req.Avatar,
-		ID:           req.ID,
+		Username:   req.UserName,
+		Email:      req.Email,
+		Password:   req.Password,
+		RoleTicker: req.RoleTicker,
+		Avatar:     req.Avatar,
+		ID:         req.ID,
 	}
 	err, user := u.UserRepo.UpdateUser(c.Request().Context(), param)
 	if err != nil {

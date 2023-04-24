@@ -54,12 +54,16 @@ func main() {
 	userRepo := repository.NewUserRepo(queries)
 	sessionRepo := repository.NewSessionRepo(queries)
 	roleRepo := repository.NewRoleRepo(queries)
+	gameRepo := repository.NewGameRepo(queries)
 	userHandle := handle.UserHandler{
 		UserRepo:    userRepo,
 		SessionRepo: sessionRepo,
 	}
 	roleHandler := handle.RoleHandler{
 		RoleRepo: roleRepo,
+	}
+	gameHandler := handle.GameHandler{
+		GameRepo: gameRepo,
 	}
 
 	e := echo.New()
@@ -72,6 +76,7 @@ func main() {
 		Echo:        e,
 		UserHandler: userHandle,
 		RoleHandler: roleHandler,
+		GameHandler: gameHandler,
 	}
 	routerSetup.SetupRouter()
 	e.Logger.Fatal(e.Start(":1313"))

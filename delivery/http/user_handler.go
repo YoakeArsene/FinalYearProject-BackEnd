@@ -50,7 +50,7 @@ func (u *UserHandler) AddUser(c echo.Context) error {
 		})
 	}
 	req.ID = userId.String()
-	req.Avatar = "http://localhost:3000/images/nino.jpg"
+	req.Avatar = "http://localhost:3000/store/images/nino.jpg"
 	param := sql.CreateUserParams{
 		ID:         req.ID,
 		Email:      req.Email,

@@ -7,7 +7,7 @@ import (
 	"GDN-delivery-management/router"
 	"database/sql"
 	"github.com/labstack/echo/v4"
-	migrate "github.com/rubenv/sql-migrate"
+	//migrate "github.com/rubenv/sql-migrate"
 	"log"
 	"net/http"
 	"os"
@@ -24,31 +24,31 @@ func main() {
 	}
 	psqlInfo := os.Getenv("DBSOURCE")
 	driver, err := sql.Open("postgres", psqlInfo)
-	Migrate(driver)
+	//Migrate(driver)
 	if err != nil {
 		log.Println(err)
 		return
 	}
 
-	_, err = driver.Exec(`INSERT INTO roles (role_name, ticker) 
-								VALUES ('System Admin', 'SAD') ON CONFLICT DO NOTHING`)
-	if err != nil {
-		log.Println(err)
-		return
-	}
-	_, err = driver.Exec(`INSERT INTO roles (role_name, ticker) 
-								VALUES ('User', 'USR') ON CONFLICT DO NOTHING`)
-	if err != nil {
-		log.Println(err)
-		return
-	}
-
-	_, err = driver.Exec(`INSERT INTO users (id, username, email, password, avatar, role_ticker) 
-								VALUES ('123e4567-e89b-12d3-a456-426614174001', 'John Doe', 'johndoe@gmail.com', '7fe8babbd1346dbbd1861e12d9c70ac42771d039ea257be82f02ad81079bbc60', 'http://localhost:3000/images/miku.jpg', 'USR') ON CONFLICT DO NOTHING`)
-	if err != nil {
-		log.Println(err)
-		return
-	}
+	//_, err = driver.Exec(`INSERT INTO roles (role_name, ticker)
+	//							VALUES ('System Admin', 'SAD') ON CONFLICT DO NOTHING`)
+	//if err != nil {
+	//	log.Println(err)
+	//	return
+	//}
+	//_, err = driver.Exec(`INSERT INTO roles (role_name, ticker)
+	//							VALUES ('User', 'USR') ON CONFLICT DO NOTHING`)
+	//if err != nil {
+	//	log.Println(err)
+	//	return
+	//}
+	//
+	//_, err = driver.Exec(`INSERT INTO users (id, username, email, password, avatar, role_ticker)
+	//							VALUES ('123e4567-e89b-12d3-a456-426614174001', 'John Doe', 'johndoe@gmail.com', '7fe8babbd1346dbbd1861e12d9c70ac42771d039ea257be82f02ad81079bbc60', 'http://localhost:3000/images/miku.jpg', 'USR') ON CONFLICT DO NOTHING`)
+	//if err != nil {
+	//	log.Println(err)
+	//	return
+	//}
 
 	queries := db.New(driver)
 	userRepo := repository.NewUserRepo(queries)
@@ -77,18 +77,18 @@ func main() {
 	e.Logger.Fatal(e.Start(":1313"))
 }
 
-func Migrate(db *sql.DB) {
-	migrations := &migrate.FileMigrationSource{
-		Dir: "migrations",
-	}
-	d, err := migrate.Exec(db, "postgres", migrations, migrate.Down)
-	if err != nil {
-		log.Println(err)
-	}
-
-	n, err := migrate.Exec(db, "postgres", migrations, migrate.Up)
-	if err != nil {
-		log.Println(err)
-	}
-	log.Printf("Applied %d & %d migrations!\n", d, n)
-}
+//func Migrate(db *sql.DB) {
+//	migrations := &migrate.FileMigrationSource{
+//		Dir: "migrations",
+//	}
+//	d, err := migrate.Exec(db, "postgres", migrations, migrate.Down)
+//	if err != nil {
+//		log.Println(err)
+//	}
+//
+//	n, err := migrate.Exec(db, "postgres", migrations, migrate.Up)
+//	if err != nil {
+//		log.Println(err)
+//	}
+//	log.Printf("Applied %d & %d migrations!\n", d, n)
+//}

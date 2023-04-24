@@ -9,6 +9,7 @@ type Router struct {
 	Echo        *echo.Echo
 	UserHandler http.UserHandler
 	RoleHandler http.RoleHandler
+	GameHandler http.GameHandler
 }
 
 func (r *Router) SetupRouter() {
@@ -39,4 +40,10 @@ func (r *Router) SetupRouter() {
 	role.GET("/all", r.RoleHandler.ListRoles)
 	role.PATCH("/update", r.RoleHandler.UpdateRole)
 	role.DELETE("/delete", r.RoleHandler.DeleteRole)
+
+	game := r.Echo.Group("/game")
+	game.POST("/add", r.GameHandler.CreateGame)
+	game.GET("/all", r.GameHandler.GetAllGames)
+	game.PATCH("/update", r.GameHandler.UpdateGame)
+	game.DELETE("/delete", r.GameHandler.DeleteGame)
 }

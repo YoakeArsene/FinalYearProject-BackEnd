@@ -59,6 +59,6 @@ func UploadImage(c echo.Context) error {
 	return c.JSON(http.StatusOK, Response{
 		StatusCode: http.StatusOK,
 		Message:    "Upload Success",
-		Data:       "http://localhost:3000/images/" + file.Filename,
+		Data:       "http://localhost:3000/store/images/" + file.Filename,
 	})
 }

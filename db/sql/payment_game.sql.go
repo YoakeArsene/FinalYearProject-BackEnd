@@ -21,7 +21,7 @@ RETURNING payment_id, game_id
 
 type CreatePaymentGameParams struct {
 	PaymentID string `json:"payment_id"`
-	GameID    string `json:"game_id"`
+	GameID    int32  `json:"game_id"`
 }
 
 func (q *Queries) CreatePaymentGame(ctx context.Context, arg CreatePaymentGameParams) (PaymentGame, error) {
@@ -39,7 +39,7 @@ WHERE payment_id = $1 AND game_id = $2
 
 type DeletePaymentGameParams struct {
 	PaymentID string `json:"payment_id"`
-	GameID    string `json:"game_id"`
+	GameID    int32  `json:"game_id"`
 }
 
 func (q *Queries) DeletePaymentGame(ctx context.Context, arg DeletePaymentGameParams) (PaymentGame, error) {

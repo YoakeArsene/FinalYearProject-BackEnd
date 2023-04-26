@@ -40,7 +40,7 @@ WHERE user_id = $1 AND game_id = $2
 
 type DeletePaymentParams struct {
 	UserID string `json:"user_id"`
-	GameID string `json:"game_id"`
+	GameID int32  `json:"game_id"`
 }
 
 func (q *Queries) DeletePayment(ctx context.Context, arg DeletePaymentParams) (Library, error) {

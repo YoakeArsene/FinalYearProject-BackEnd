@@ -24,7 +24,7 @@ VALUES (
 type CreateLibraryParams struct {
 	ID     string `json:"id"`
 	UserID string `json:"user_id"`
-	GameID string `json:"game_id"`
+	GameID int32  `json:"game_id"`
 }
 
 func (q *Queries) CreateLibrary(ctx context.Context, arg CreateLibraryParams) (Library, error) {
@@ -42,7 +42,7 @@ WHERE user_id = $1 AND game_id = $2
 
 type DeleteLibraryParams struct {
 	UserID string `json:"user_id"`
-	GameID string `json:"game_id"`
+	GameID int32  `json:"game_id"`
 }
 
 func (q *Queries) DeleteLibrary(ctx context.Context, arg DeleteLibraryParams) (Library, error) {

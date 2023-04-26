@@ -13,7 +13,7 @@ import (
 
 type IGameRepo interface {
 	CreateGame(ctx context.Context, input entity.CreateGameParams) (error, entity.Game)
-	DeleteGame(ctx context.Context, id string) (error, entity.Game)
+	DeleteGame(ctx context.Context, id int32) (error, entity.Game)
 	GetAllGames(ctx context.Context) (error, []entity.Game)
 	UpdateGame(ctx context.Context, input entity.UpdateGameParams) (error, entity.Game)
 }
@@ -42,7 +42,7 @@ func (g *GameRepo) CreateGame(ctx context.Context, input entity.CreateGameParams
 	return nil, game
 }
 
-func (g *GameRepo) DeleteGame(ctx context.Context, id string) (error, entity.Game) {
+func (g *GameRepo) DeleteGame(ctx context.Context, id int32) (error, entity.Game) {
 	game, err := g.sql.DeleteGame(ctx, id)
 	if err != nil {
 		if err == sql.ErrNoRows {

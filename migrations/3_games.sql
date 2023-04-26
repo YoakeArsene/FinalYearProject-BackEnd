@@ -1,6 +1,6 @@
 -- +migrate Up
 CREATE TABLE "games" (
-                         "id" varchar NOT NULL,
+                         "id" integer NOT NULL,
                          "name" varchar NOT NULL,
                          "surname" varchar NOT NULL,
                          "price" varchar NOT NULL,

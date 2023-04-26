@@ -39,7 +39,7 @@ RETURNING id, name, surname, price, "desc", link, release, platforms, genre, dev
 `
 
 type CreateGameParams struct {
-	ID         string   `json:"id"`
+	ID         int32    `json:"id"`
 	Name       string   `json:"name"`
 	Surname    string   `json:"surname"`
 	Price      string   `json:"price"`
@@ -110,7 +110,7 @@ WHERE id = $1
     RETURNING id, name, surname, price, "desc", link, release, platforms, genre, developers, publishers, "inCart", selected, "isHovered", "isLiked", rating, cover, footage
 `
 
-func (q *Queries) DeleteGame(ctx context.Context, id string) (Game, error) {
+func (q *Queries) DeleteGame(ctx context.Context, id int32) (Game, error) {
 	row := q.db.QueryRowContext(ctx, deleteGame, id)
 	var i Game
 	err := row.Scan(
@@ -223,7 +223,7 @@ type UpdateGameParams struct {
 	Rating     int32    `json:"rating"`
 	Cover      string   `json:"cover"`
 	Column17   []string `json:"column_17"`
-	ID         string   `json:"id"`
+	ID         int32    `json:"id"`
 }
 
 func (q *Queries) UpdateGame(ctx context.Context, arg UpdateGameParams) (Game, error) {

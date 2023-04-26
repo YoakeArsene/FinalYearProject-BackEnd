@@ -12,7 +12,7 @@ type GameHandler struct {
 }
 
 type CreateGameRequest struct {
-	ID         string   `json:"id"`
+	ID         int32    `json:"id"`
 	Name       string   `json:"name"`
 	Surname    string   `json:"surname"`
 	Price      string   `json:"price"`
@@ -101,7 +101,7 @@ type UpdateGameRequest struct {
 	Rating     int32    `json:"rating"`
 	Cover      string   `json:"cover"`
 	Footage    []string `json:"footage"`
-	ID         string   `json:"id"`
+	ID         int32    `json:"id"`
 }
 
 func (g *GameHandler) UpdateGame(c echo.Context) error {
@@ -150,7 +150,7 @@ func (g *GameHandler) UpdateGame(c echo.Context) error {
 }
 
 type DeleteGameRequest struct {
-	ID string `json:"id"`
+	ID int32 `json:"id"`
 }
 
 func (g *GameHandler) DeleteGame(c echo.Context) error {

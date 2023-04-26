@@ -9,7 +9,7 @@ import (
 )
 
 type Game struct {
-	ID         string   `json:"id"`
+	ID         int32    `json:"id"`
 	Name       string   `json:"name"`
 	Surname    string   `json:"surname"`
 	Price      string   `json:"price"`
@@ -32,7 +32,7 @@ type Game struct {
 type Library struct {
 	ID     string `json:"id"`
 	UserID string `json:"user_id"`
-	GameID string `json:"game_id"`
+	GameID int32  `json:"game_id"`
 }
 
 type Payment struct {
@@ -43,7 +43,7 @@ type Payment struct {
 
 type PaymentGame struct {
 	PaymentID string `json:"payment_id"`
-	GameID    string `json:"game_id"`
+	GameID    int32  `json:"game_id"`
 }
 
 type Role struct {

@@ -2,7 +2,7 @@
 CREATE TABLE "libraries" (
                               "id" varchar NOT NULL,
                               "user_id" varchar NOT NULL,
-                              "game_id" varchar NOT NULL,
+                              "game_id" integer NOT NULL,
                               CONSTRAINT "libraries_pk" PRIMARY KEY ("id")
 );
 

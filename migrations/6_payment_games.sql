@@ -1,7 +1,7 @@
 -- +migrate Up
 CREATE TABLE "payment_games" (
                             "payment_id" varchar NOT NULL,
-                            "game_id" varchar NOT NULL,
+                            "game_id" integer NOT NULL,
                             CONSTRAINT "payment_games_pk" PRIMARY KEY ("payment_id", "game_id")
 );
 

@@ -49,6 +49,13 @@ func main() {
 	//	log.Println(err)
 	//	return
 	//}
+	//
+	//_, err = driver.Exec(`INSERT INTO users (id, username, email, password, avatar, role_ticker)
+	//							VALUES ('123e4567-e89b-12d3-a456-426614174002', 'System Admin', 'admin@gmail.com', '$2a$04$vx/bEre7k.qlSeVx/DaOcefXX4BBcQJ4326drbJO3ViuhHWAjyrxG', 'http://localhost:3000/images/nino.jpg', 'SAD') ON CONFLICT DO NOTHING`)
+	//if err != nil {
+	//	log.Println(err)
+	//	return
+	//}
 
 	queries := db.New(driver)
 	userRepo := repository.NewUserRepo(queries)

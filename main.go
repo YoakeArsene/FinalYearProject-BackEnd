@@ -62,6 +62,9 @@ func main() {
 	sessionRepo := repository.NewSessionRepo(queries)
 	roleRepo := repository.NewRoleRepo(queries)
 	gameRepo := repository.NewGameRepo(queries)
+	libraryRepo := repository.NewLibraryRepo(queries)
+	paymentRepo := repository.NewPaymentRepo(queries)
+	paymentGameRepo := repository.NewPaymentGameRepo(queries)
 	userHandle := handle.UserHandler{
 		UserRepo:    userRepo,
 		SessionRepo: sessionRepo,
@@ -72,6 +75,15 @@ func main() {
 	gameHandler := handle.GameHandler{
 		GameRepo: gameRepo,
 	}
+	libraryHandler := handle.LibraryHandler{
+		LibraryRepo: libraryRepo,
+	}
+	paymentHandler := handle.PaymentHandler{
+		PaymentRepo: paymentRepo,
+	}
+	paymentGameHandler := handle.PaymentGameHandler{
+		PaymentGameRepo: paymentGameRepo,
+	}
 
 	e := echo.New()
 	e.Use(middleware.CORSWithConfig(middleware.CORSConfig{
@@ -80,10 +92,13 @@ func main() {
 		AllowMethods:     []string{http.MethodGet, http.MethodHead, http.MethodPut, http.MethodPatch, http.MethodPost, http.MethodDelete},
 	}))
 	routerSetup := router.Router{
-		Echo:        e,
-		UserHandler: userHandle,
-		RoleHandler: roleHandler,
-		GameHandler: gameHandler,
+		Echo:               e,
+		UserHandler:        userHandle,
+		RoleHandler:        roleHandler,
+		GameHandler:        gameHandler,
+		LibraryHandler:     libraryHandler,
+		PaymentHandler:     paymentHandler,
+		PaymentGameHandler: paymentGameHandler,
 	}
 	routerSetup.SetupRouter()
 	e.Logger.Fatal(e.Start(":1313"))

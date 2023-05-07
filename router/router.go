@@ -6,10 +6,13 @@ import (
 )
 
 type Router struct {
-	Echo        *echo.Echo
-	UserHandler http.UserHandler
-	RoleHandler http.RoleHandler
-	GameHandler http.GameHandler
+	Echo               *echo.Echo
+	UserHandler        http.UserHandler
+	RoleHandler        http.RoleHandler
+	GameHandler        http.GameHandler
+	LibraryHandler     http.LibraryHandler
+	PaymentHandler     http.PaymentHandler
+	PaymentGameHandler http.PaymentGameHandler
 }
 
 func (r *Router) SetupRouter() {
@@ -46,4 +49,20 @@ func (r *Router) SetupRouter() {
 	game.GET("/all", r.GameHandler.GetAllGames)
 	game.PATCH("/update", r.GameHandler.UpdateGame)
 	game.DELETE("/delete", r.GameHandler.DeleteGame)
+
+	library := r.Echo.Group("/library")
+	library.POST("/add", r.LibraryHandler.CreateLibrary)
+	library.GET("/:userid", r.LibraryHandler.GetUserLibrary)
+	library.GET("/check", r.LibraryHandler.CheckGameInLibrary)
+	library.DELETE("/delete", r.LibraryHandler.DeleteLibrary)
+
+	payment := r.Echo.Group("/payment")
+	payment.POST("/add", r.PaymentHandler.CreatePayment)
+	payment.GET("/:userid", r.PaymentHandler.GetUserPayments)
+	payment.DELETE("/delete", r.PaymentHandler.DeletePayment)
+
+	paymentGame := r.Echo.Group("/payment-game")
+	paymentGame.POST("/add", r.PaymentGameHandler.CreatePaymentGame)
+	paymentGame.GET("/:userid", r.PaymentGameHandler.GetPaymentGames)
+	paymentGame.DELETE("/delete", r.PaymentGameHandler.DeletePaymentGame)
 }

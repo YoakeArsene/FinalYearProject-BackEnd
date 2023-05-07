@@ -33,20 +33,15 @@ func (q *Queries) CreatePayment(ctx context.Context, arg CreatePaymentParams) (P
 }
 
 const deletePayment = `-- name: DeletePayment :one
-DELETE FROM libraries
-WHERE user_id = $1 AND game_id = $2
-    RETURNING id, user_id, game_id
+DELETE FROM payments
+WHERE id = $1
+    RETURNING id, user_id, price
 `
 
-type DeletePaymentParams struct {
-	UserID string `json:"user_id"`
-	GameID int32  `json:"game_id"`
-}
-
-func (q *Queries) DeletePayment(ctx context.Context, arg DeletePaymentParams) (Library, error) {
-	row := q.db.QueryRowContext(ctx, deletePayment, arg.UserID, arg.GameID)
-	var i Library
-	err := row.Scan(&i.ID, &i.UserID, &i.GameID)
+func (q *Queries) DeletePayment(ctx context.Context, id string) (Payment, error) {
+	row := q.db.QueryRowContext(ctx, deletePayment, id)
+	var i Payment
+	err := row.Scan(&i.ID, &i.UserID, &i.Price)
 	return i, err
 }
 

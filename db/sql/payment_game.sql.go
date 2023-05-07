@@ -50,22 +50,24 @@ func (q *Queries) DeletePaymentGame(ctx context.Context, arg DeletePaymentGamePa
 }
 
 const getPaymentGames = `-- name: GetPaymentGames :many
-SELECT payment_id, game_id FROM payment_games WHERE payment_id = $1
+SELECT games.name FROM payment_games
+                           JOIN games ON payment_games.game_id = games.id
+WHERE payment_games.payment_id = $1
 `
 
-func (q *Queries) GetPaymentGames(ctx context.Context, paymentID string) ([]PaymentGame, error) {
+func (q *Queries) GetPaymentGames(ctx context.Context, paymentID string) ([]string, error) {
 	rows, err := q.db.QueryContext(ctx, getPaymentGames, paymentID)
 	if err != nil {
 		return nil, err
 	}
 	defer rows.Close()
-	var items []PaymentGame
+	var items []string
 	for rows.Next() {
-		var i PaymentGame
-		if err := rows.Scan(&i.PaymentID, &i.GameID); err != nil {
+		var name string
+		if err := rows.Scan(&name); err != nil {
 			return nil, err
 		}
-		items = append(items, i)
+		items = append(items, name)
 	}
 	if err := rows.Close(); err != nil {
 		return nil, err

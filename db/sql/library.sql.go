@@ -11,6 +11,25 @@ import (
 	"github.com/lib/pq"
 )
 
+const checkGameInLibrary = `-- name: CheckGameInLibrary :one
+SELECT COUNT(*) AS game_count
+FROM libraries
+WHERE user_id = $1
+  AND game_id = $2
+`
+
+type CheckGameInLibraryParams struct {
+	UserID string `json:"user_id"`
+	GameID int32  `json:"game_id"`
+}
+
+func (q *Queries) CheckGameInLibrary(ctx context.Context, arg CheckGameInLibraryParams) (int64, error) {
+	row := q.db.QueryRowContext(ctx, checkGameInLibrary, arg.UserID, arg.GameID)
+	var game_count int64
+	err := row.Scan(&game_count)
+	return game_count, err
+}
+
 const createLibrary = `-- name: CreateLibrary :one
 INSERT INTO libraries(
     id, user_id, game_id

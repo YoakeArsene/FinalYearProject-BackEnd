@@ -13,6 +13,6 @@ FROM payments
 WHERE user_id = $1;
 
 -- name: DeletePayment :one
-DELETE FROM libraries
-WHERE user_id = $1 AND game_id = $2
+DELETE FROM payments
+WHERE id = $1
     RETURNING *;

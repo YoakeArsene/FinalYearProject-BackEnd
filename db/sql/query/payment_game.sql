@@ -8,7 +8,10 @@ INSERT INTO payment_games(
 RETURNING *;
 
 -- name: GetPaymentGames :many
-SELECT * FROM payment_games WHERE payment_id = $1;
+SELECT games.name FROM payment_games
+                           JOIN games ON payment_games.game_id = games.id
+WHERE payment_games.payment_id = $1;
+
 
 -- name: DeletePaymentGame :one
 DELETE FROM payment_games

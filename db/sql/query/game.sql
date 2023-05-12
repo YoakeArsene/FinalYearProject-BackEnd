@@ -25,7 +25,7 @@ INSERT INTO games(
 RETURNING *;
 
 -- name: GetAllGames :many
-Select * FROM games;
+Select * FROM games ORDER BY id ASC;
 
 -- name: UpdateGame :one
 UPDATE games

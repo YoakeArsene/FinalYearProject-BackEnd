@@ -137,7 +137,7 @@ func (q *Queries) DeleteGame(ctx context.Context, id int32) (Game, error) {
 }
 
 const getAllGames = `-- name: GetAllGames :many
-Select id, name, surname, price, "desc", link, release, platforms, genre, developers, publishers, "inCart", selected, "isHovered", "isLiked", rating, cover, footage FROM games
+Select id, name, surname, price, "desc", link, release, platforms, genre, developers, publishers, "inCart", selected, "isHovered", "isLiked", rating, cover, footage FROM games ORDER BY id ASC
 `
 
 func (q *Queries) GetAllGames(ctx context.Context) ([]Game, error) {

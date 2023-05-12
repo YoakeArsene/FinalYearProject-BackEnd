@@ -74,7 +74,7 @@ func (q *Queries) DeleteLibrary(ctx context.Context, arg DeleteLibraryParams) (L
 const getUserLibrary = `-- name: GetUserLibrary :many
 SELECT games.id, games.name, games.surname, games.price, games."desc", games.link, games.release, games.platforms, games.genre, games.developers, games.publishers, games."inCart", games.selected, games."isHovered", games."isLiked", games.rating, games.cover, games.footage
 FROM libraries
-         JOIN games ON libraries.game_id = games.game_id
+         JOIN games ON libraries.game_id = games.id
 WHERE libraries.user_id = $1
 `
 

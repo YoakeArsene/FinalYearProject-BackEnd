@@ -10,7 +10,7 @@ VALUES (
 -- name: GetUserLibrary :many
 SELECT games.*
 FROM libraries
-         JOIN games ON libraries.game_id = games.game_id
+         JOIN games ON libraries.game_id = games.id
 WHERE libraries.user_id = $1;
 
 -- name: CheckGameInLibrary :one

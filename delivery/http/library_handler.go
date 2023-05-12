@@ -72,7 +72,9 @@ func (l *LibraryHandler) GetUserLibrary(c echo.Context) error {
 			Data:       nil,
 		})
 	}
-	err, library := l.LibraryRepo.GetUserLibrary(c.Request().Context(), req.UserID)
+	userId := req.UserID
+	userId = c.Param("userid")
+	err, library := l.LibraryRepo.GetUserLibrary(c.Request().Context(), userId)
 	if err != nil {
 		return c.JSON(http.StatusInternalServerError, Response{
 			StatusCode: http.StatusInternalServerError,

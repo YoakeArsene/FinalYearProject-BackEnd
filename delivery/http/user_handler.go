@@ -20,13 +20,12 @@ type UserHandler struct {
 }
 
 type AddUserRequest struct {
-	ID           string `json:"id"`
-	Username     string `json:"username"`
-	Email        string `json:"email"`
-	Password     string `json:"password"`
-	Avatar       string `json:"avatar"`
-	RoleTicker   string `json:"role_ticker"`
-	DepartmentID string `json:"department_id"`
+	ID         string `json:"id"`
+	Username   string `json:"username"`
+	Email      string `json:"email"`
+	Password   string `json:"password"`
+	Avatar     string `json:"avatar"`
+	RoleTicker string `json:"role_ticker"`
 }
 
 func (u *UserHandler) AddUser(c echo.Context) error {
@@ -425,13 +424,12 @@ func (u *UserHandler) Logout(c echo.Context) error {
 }
 
 type UpdateUserRequest struct {
-	UserName     string `json:"user_name"`
-	Email        string `json:"email"`
-	Password     string `json:"password"`
-	RoleTicker   string `json:"role_ticker"`
-	DepartmentID string `json:"department_id"`
-	Avatar       string `json:"avatar"`
-	ID           string `json:"id"`
+	UserName   string `json:"user_name"`
+	Email      string `json:"email"`
+	Password   string `json:"password"`
+	RoleTicker string `json:"role_ticker"`
+	Avatar     string `json:"avatar"`
+	ID         string `json:"id"`
 }
 
 func (u *UserHandler) UpdateUser(c echo.Context) error {

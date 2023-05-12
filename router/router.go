@@ -53,7 +53,7 @@ func (r *Router) SetupRouter() {
 	library := r.Echo.Group("/library")
 	library.POST("/add", r.LibraryHandler.CreateLibrary)
 	library.GET("/:userid", r.LibraryHandler.GetUserLibrary)
-	library.GET("/check", r.LibraryHandler.CheckGameInLibrary)
+	library.POST("/check", r.LibraryHandler.CheckGameInLibrary)
 	library.DELETE("/delete", r.LibraryHandler.DeleteLibrary)
 
 	payment := r.Echo.Group("/payment")
@@ -63,6 +63,6 @@ func (r *Router) SetupRouter() {
 
 	paymentGame := r.Echo.Group("/payment-game")
 	paymentGame.POST("/add", r.PaymentGameHandler.CreatePaymentGame)
-	paymentGame.GET("/:userid", r.PaymentGameHandler.GetPaymentGames)
+	paymentGame.GET("/:paymentid", r.PaymentGameHandler.GetPaymentGames)
 	paymentGame.DELETE("/delete", r.PaymentGameHandler.DeletePaymentGame)
 }
